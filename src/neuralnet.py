@@ -1,8 +1,6 @@
 import numpy as np
-import numpy as cp
 import pandas as pd
 import time
-from numba.experimental import jitclass
 from multiprocessing.pool import ThreadPool
 from collections import namedtuple
 
@@ -16,7 +14,7 @@ SetData = namedtuple('SetData', ['inputs', 'outputs'])
 class NeuralNetwork:
     def __init__(self, input_size, layer_data, loss_fn, optimizer, minibatch_size):
         self._loss_fn = loss_fn
-        self._inputs = cp.zeros([minibatch_size, input_size])
+        self._inputs = np.zeros([minibatch_size, input_size])
         self._evaluators = []
         self._minibatch_size = minibatch_size
 
@@ -27,8 +25,8 @@ class NeuralNetwork:
             parameter_count += (layer_input_size + 1) * data.output_size
             layer_input_size = data.output_size
 
-        self._parameters = cp.random.rand(parameter_count).astype('float32')
-        self._gradient = cp.random.rand(parameter_count).astype('float32')
+        self._parameters = np.random.rand(parameter_count).astype('float32')
+        self._gradient = np.random.rand(parameter_count).astype('float32')
         self._optimizer = optimizer(parameter_count)
                  
         for i in range(minibatch_size):
@@ -63,7 +61,7 @@ class NeuralNetwork:
                                      training_set.inputs[index],
                                      training_set.outputs[index])
 
-            self._gradient[:] = cp.zeros(self._gradient.size)
+            self._gradient[:] = np.zeros(self._gradient.size)
             
             for evaluator in self._evaluators:
                 self._gradient += evaluator.get_gradient()

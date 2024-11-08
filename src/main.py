@@ -11,14 +11,14 @@ def main():
     output = ['price']
     
     """
-    original_sample= pd.read_csv('../dataset/training/audi.csv')
+    original_sample= pd.read_csv('dataset/training/audi.csv')
     trait_count = len(original_sample.columns)
     
-    data = pd.read_csv('../dataset/training/training.csv')
+    data = pd.read_csv('dataset/training/training.csv')
     count = count_nonmatching(data.columns, output)
     """
     
-    data = pd.read_csv('../dataset/training/audi_transformed.csv')
+    data = pd.read_csv('dataset/training/audi_transformed.csv')
     count = count_nonmatching(data.columns, output)
     trait_count = count
     

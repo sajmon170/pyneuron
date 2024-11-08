@@ -1,15 +1,15 @@
-import numpy as cp
+import numpy as np
 from numpy import savetxt
 
 
 def mse(expected, prediction):
-    return cp.mean((prediction - expected)**2)
+    return np.mean((prediction - expected)**2)
 
 
 def r2(expected, prediction):
-    mean = cp.mean(expected)
-    res = cp.sum((expected - prediction)**2)
-    tot = cp.sum((expected - mean)**2)
+    mean = np.mean(expected)
+    res = np.sum((expected - prediction)**2)
+    tot = np.sum((expected - mean)**2)
     return 1 - res/tot
 
 

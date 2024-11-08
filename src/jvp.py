@@ -1,14 +1,14 @@
-import numpy as cp
+import numpy as np
 from activation import sigmoid, relu
 
 
 def parameters_jvp(inputs, delta, out_dw, out_db):
-    cp.matmul(delta, inputs.transpose(), out=out_dw)
+    np.matmul(delta, inputs.transpose(), out=out_dw)
     out_db[:] = delta
     
 
 def linear_jvp(weights, delta):
-    result = cp.matmul(weights.transpose(), delta)
+    result = np.matmul(weights.transpose(), delta)
     return result
 
 

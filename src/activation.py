@@ -1,9 +1,9 @@
-import numpy as cp
+import numpy as np
 import scipy
 
 
 def relu(x):
-    return cp.maximum(0, x)
+    return np.maximum(0, x)
 
 
 def sigmoid(x):

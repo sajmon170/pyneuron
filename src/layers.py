@@ -1,20 +1,12 @@
-import numpy as cp
+import numpy as np
 from collections import namedtuple
 from loss import deriv
 from jvp import parameters_jvp, linear_jvp, jvp
-from numba import njit
 
 
 LayerData = namedtuple('LayerData', ['output_size', 'function', 'dropout'])
 
 
-"""
-spec = [
-    
-]
-
-@jitclass
-"""
 class LayerComposition:    
     class Layer:
         def __init__(self, weights, bias, inputs, output_size, activation, dropout): 
@@ -22,19 +14,19 @@ class LayerComposition:
             self.b = bias
             self.x = inputs
             self.f = activation
-            self.linear = cp.zeros(output_size, dtype=cp.float32) \
+            self.linear = np.zeros(output_size, dtype=np.float32) \
                             .reshape(output_size, 1)
-            self.out = cp.zeros(output_size, dtype=cp.float32) \
+            self.out = np.zeros(output_size, dtype=np.float32) \
                          .reshape(output_size, 1)
             self.dropout = dropout
 
 
         def evaluate(self, training=False):
-            cp.matmul(self.W, self.x, out=self.linear)
+            np.matmul(self.W, self.x, out=self.linear)
             self.linear += self.b
             
             if training:
-                mask = cp.random.binomial(size=self.linear.shape, n=1, p=1-self.dropout)
+                mask = np.random.binomial(size=self.linear.shape, n=1, p=1-self.dropout)
                 self.linear *= mask
                 
             if self.f is not None:
@@ -46,7 +38,7 @@ class LayerComposition:
     def __init__(self, input_memory, layer_data, parameters, loss_fn):
         self._inputs = input_memory
         self._layers = []
-        self._gradient = cp.zeros(parameters.size)
+        self._gradient = np.zeros(parameters.size)
         self._loss_fn = loss_fn
 
         index = 0

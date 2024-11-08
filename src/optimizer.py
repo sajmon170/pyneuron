@@ -1,21 +1,11 @@
-import numpy as cp
-from numba.experimental import jitclass
-from numba import int32, float32
+import numpy as np
 import time
 
 
-spec = [
-    ('m_prev', float32[:]),
-    ('v_prev', float32[:]),
-    ('k', int32)
-]
-
-
-@jitclass(spec)
 class Adam:
     def __init__(self, gradient_size):
-        self.m_prev = cp.zeros(gradient_size, dtype=cp.float32)
-        self.v_prev = cp.zeros(gradient_size, dtype=cp.float32)
+        self.m_prev = np.zeros(gradient_size, dtype=np.float32)
+        self.v_prev = np.zeros(gradient_size, dtype=np.float32)
         self.k = 1
 
     def optimize(self, gradient, parameters):
@@ -34,7 +24,7 @@ class Adam:
         self.v_prev = v
         self.k += 1
 
-        parameters -= A*m_scaled/(cp.sqrt(v_scaled) + EPSILON)
+        parameters -= A*m_scaled/(np.sqrt(v_scaled) + EPSILON)
 
 
 class GradientDescent:
