@@ -89,7 +89,6 @@ def main():
                             loss_fn=mse,
                             optimizer=Adam,
                             minibatch_size=128)
-    #network.load_params("20230601-223802.core")
 
     network.train(training_data=data,
                   output_vars=output,
@@ -97,6 +96,7 @@ def main():
                   autosave=False)
 
     network.save_params()
+
 
 if __name__ == "__main__":
     np.random.seed(1234)
